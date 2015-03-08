@@ -1,0 +1,220 @@
+<% @languages = Language.all %>
+
+
+<div class="container">
+<div class="col-md-12">
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-xs pull-right" data-toggle="modal" data-target="#myModal">
+  Add Fields For Other Language
+</button>
+</div>
+</div>
+<br/>
+
+ 
+<%= form_for([:admin, @about_study], html: { class: 'form-horizontal mission' }) do |f| %>
+  <% if @about_study.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@about_study.errors.count, "error") %> prohibited this about_study from being saved:</h2>
+
+      <ul>
+      <% @about_study.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  
+
+
+  <% @languages.each do |lang| -%>
+   
+   <% 
+   	 locale = lang.code.to_sym
+  	 name_locale = lang.name
+   %>
+   <% if locale == I18n.locale -%> 
+
+         <div class="well">
+            <b><%= name_locale %></b>
+         </div>
+          <div class="form-group"> 
+              <%= f.label :heading, class: 'control-label col-md-2'  %>
+              <div class="col-sm-9"> 
+               <%= f.text_field :heading, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+             </div>
+          </div>    
+    
+          <div class="form-group"> 
+              <%= f.label :subheading, class: 'control-label col-md-2'  %>
+              <div class="col-sm-9">   
+               <%= f.text_field :subheading, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+              </div>
+          </div>    
+    
+          <div class="form-group"> 
+              <%= f.label :description1, class: 'control-label col-md-2'  %>
+             <div class="col-sm-9">  
+               <%= f.text_area :description1, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+            </div>
+          </div>    
+
+          <div class="form-group"> 
+              <%= f.label :description2, class: 'control-label col-md-2'  %>
+             <div class="col-sm-9">  
+                <%= f.text_area :description2, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+             </div>
+          </div>    
+
+          <div class="form-group"> 
+              <%= f.label :description3, class: 'control-label col-md-2'  %>
+            <div class="col-sm-9">   
+                <%= f.text_area :description3, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+            </div>
+          </div>    
+
+    <% else -%>
+        <%= f.globalize_fields_for locale do |g| -%>
+         <br/>
+
+          <div  id="language_<%= lang.id %>" style= "display:none;"> 
+             <div class="well">
+                <b><%= name_locale %></b>
+             </div>
+              <div class="form-group"> 
+                  <%= g.label :heading, class: 'control-label col-md-2'  %>
+                  <div class="col-sm-9"> 
+                    <%= g.text_field :heading, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+                  </div>
+             </div> 
+    
+              <div class="form-group"> 
+                  <%= g.label :subheading, class: 'control-label col-md-2'  %>
+                <div class="col-sm-9">   
+                <%= g.text_field :subheading, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+                </div>
+              </div>    
+    
+              <div class="form-group"> 
+                  <%= g.label :description1, class: 'control-label col-md-2'  %>
+                 <div class="col-sm-9">  
+                  <%= g.text_area :description1, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+                 </div>
+              </div>    
+
+              <div class="form-group"> 
+                  <%= g.label :description2, class: 'control-label col-md-2'  %>
+                 <div class="col-sm-9">  
+                  <%= g.text_area :description2, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+                 </div>
+              </div>    
+
+              <div class="form-group"> 
+                  <%= g.label :description3, class: 'control-label col-md-2'  %>
+                <div class="col-sm-9">   
+                  <%= g.text_area :description3, class: 'form-control'  %><i>(<%= name_locale %>)</i>
+                </div>
+              </div>    
+          </div> 
+        <% end %>  
+    
+    <% end %>  
+    
+    
+    <% end %>      
+
+
+  <div class="form-group" style="display:none;">  
+
+      <%= f.label :mission, :class => "control-label col-md-2" %>
+     <div class="col-sm-9">  
+      	<%#= f.collection_select :mission_id, Mission.order(:name), :id, :name,
+      {:include_blank => 'Select Mission..'}, {:class => 'form-control'} %>
+        <%= f.hidden_field :mission_id, :value => params[:mission_id]%>
+     </div>
+  </div>    
+  <br/> 
+  <div class="form-group"> 
+      <%= f.label :picture, class: 'control-label col-md-2'  %> 
+    <div class="col-sm-9"> 
+ 
+      <%    @about_study.build_picture   if !@about_study.picture  %>
+      <%= f.fields_for :picture do |photo| %>      
+        <%= photo.file_field :image,:class=>"image_file_field"  %>                  
+      <% end %>     
+      <br/>
+          <%= image_tag f.object.picture.image.url(:thumb), :style=>"width:350px;height:150px;" , :id => "image_area" %>    
+    </div>
+  </div>  
+  
+  <div class="form-group"> 
+  <div class="actions pull-right">
+    <%= f.submit  :class => "btn btn-primary" %>
+  </div>
+  </div>
+<% end %>
+ 
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-vertical-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Available Languages</h4>
+      </div>
+      <div class="modal-body">
+		  <div class="row">
+       
+		  <% @languages.each do |lang| -%>
+		   
+		   <% if lang.code.to_sym != I18n.locale %>
+		    <div class="col-md-3">
+		  	<input type="checkbox" name="vehicle" value="Bike" id="checkbox_<%= lang.id %>" class="language-checkbox">  
+			<%= lang.name %> 
+			</div>
+			<% end %>
+		  <% end %>
+		  
+	  	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<script type="text/javascript"> 
+	$(".language-checkbox").change(function() {
+		var l_id = $(this).attr('id').split("_")[1];
+	    if(this.checked) { 
+			$("#language_"+l_id).show(); 
+			
+	    }else
+		{ 	
+			$("#language_"+l_id).hide();
+		}
+	});
+    function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#image_area').attr('src', e.target.result);
+                }
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+    $(".image_file_field").change(function(){
+        readURL(this);
+    });
+</script>
+

@@ -1,0 +1,37 @@
+ 
+<br/>
+<br/>
+<br/>
+<br/>
+
+<dl class="dl-horizontal">
+  <dt><strong>Name:</strong></dt>
+  <dd><%= @country.name %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Code:</strong></dt>
+  <dd><%= @country.code %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Mission's:</strong></dt>
+  <dd>
+  <ul> 
+  <% @country.missions.each do |mission| %> 
+  	 <li><%= link_to mission.name, admin_mission_path(mission) %>  </li>
+  <% end %>
+  </ul>
+  </dd>
+</dl>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+
+
+<%= link_to 'Edit', edit_admin_country_path(@country), class: 'btn btn-default' %>
+<%= link_to 'Back', admin_countries_path, class: 'btn btn-default' %>

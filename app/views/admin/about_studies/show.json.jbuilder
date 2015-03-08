@@ -1,0 +1,1 @@
+json.extract! @about_study, :heading, :subheading, :description1, :description2, :description3, :interest, :created_at, :updated_at

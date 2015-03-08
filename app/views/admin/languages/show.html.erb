@@ -1,0 +1,13 @@
+ 
+<dl class="dl-horizontal">
+  <dt><strong>Name:</strong></dt>
+  <dd><%= @language.name %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Code:</strong></dt>
+  <dd><%= @language.code %></dd>
+</dl>
+
+<%= link_to 'Edit', edit_admin_language_path(@language), class: 'btn btn-default' %>
+<%= link_to 'Back', admin_languages_path, class: 'btn btn-default' %>

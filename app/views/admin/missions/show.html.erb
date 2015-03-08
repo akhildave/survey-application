@@ -1,0 +1,60 @@
+ 
+
+<dl class="dl-horizontal">
+  <dt><strong>Name:</strong></dt>
+  <dd><%= @mission.name %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Description:</strong></dt>
+  <dd><%= @mission.description %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Start date:</strong></dt>
+  <dd><%= @mission.start_date %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>End date:</strong></dt>
+  <dd><%= @mission.end_date %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Contact:</strong></dt>
+  <dd><%= @mission.contact %></dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Country:</strong></dt>
+  <dd><%= @mission.country.name rescue '' %></dd>
+</dl>
+
+ 
+
+<dl class="dl-horizontal">
+  <dt><strong>Assigned Members:</strong></dt>
+  <dd>
+	  <%  @mission.users.each do |user| %>
+	  <%= link_to user.name, admin_user_path(user) %>
+	  <% end %>
+  </dd>
+</dl>
+
+
+<dl class="dl-horizontal">
+  <dt><strong>Surveys:</strong></dt>
+  <dd>
+	  <%  @mission.surveys.each do |survey| %>
+	  <%= link_to survey.title, surveyor_gui.edit_surveyform_path(survey) %>
+	  <% end %>
+  </dd>
+</dl>
+
+<dl class="dl-horizontal">
+  <dt><strong>Active:</strong></dt>
+  <dd><%= @mission.active %></dd>
+</dl>
+
+<%= link_to 'Edit', edit_admin_mission_path(@mission), class: 'btn btn-default' %>
+<%= link_to 'Back', admin_missions_path, class: 'btn btn-default' %>

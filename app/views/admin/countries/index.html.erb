@@ -1,0 +1,36 @@
+<div class="page-header">
+  <h3>Listing countries</h3>
+</div>
+ 
+  <div class="row">
+      <div class="col-md-12"> 
+          <%= link_to 'New Country', new_admin_country_path, class: 'btn btn-warning', :style =>"float:right;" %>
+      </div> 
+  </div>  
+  <br/>
+<table class="sortable table table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Code</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @countries.each do |country| %>
+      <tr>
+        <td><%= country.name %></td>
+        <td><%= country.code %></td>
+        <td><%= link_to 'Show', [:admin, country], class: 'btn btn-default btn-xs' %></td>
+        <td><%= link_to 'Edit', edit_admin_country_path(country), class: 'btn btn-default btn-xs' %></td>
+        <td><%= link_to 'Destroy', [:admin, country], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-danger' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+

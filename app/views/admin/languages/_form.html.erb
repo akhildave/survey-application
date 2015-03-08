@@ -1,0 +1,32 @@
+<%= form_for([:admin, @language], html: { class: 'form-horizontal language' }) do |f| %>
+  <% if @language.errors.any? %>
+    <div id="error_explanation" class="panel panel-danger">
+      <div class="panel-heading">
+        <h2 class="panel-title"><%= pluralize(@language.errors.count, "error") %> prohibited this language from being saved:</h2>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @language.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group"> 
+	    <%= f.label :select_language, class: 'control-label col-md-2' %>
+    <div class="col-md-10">  
+	  <% @languages = ISO::Language.all %>
+  	  <%= f.collection_select :code, @languages, :code, :name,{:include_blank => 'Select Language..'}, {:class => 'form-control'} %>
+    </div>
+  </div>
+  
+ 
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= f.submit "Add Language", class: 'btn btn-primary' %>
+    </div>
+  </div>
+  
+<% end %>

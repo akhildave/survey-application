@@ -1,0 +1,55 @@
+<%= form_for([:admin, @country], html: { class: 'form-horizontal country' }) do |f| %>
+  <% if @country.errors.any? %>
+    <div id="error_explanation" class="panel panel-danger">
+      <div class="panel-heading">
+        <h2 class="panel-title"><%= pluralize(@country.errors.count, "error") %> prohibited this country from being saved:</h2>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @country.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="form-group"  >
+    <%= f.label :select_country, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+        <%= country_code_select(:country, :code ,{},{} , { :onchange => 'update_country_name()', :id=>"country_select",:class => 'form-control'})  %>
+    </div>
+  </div>
+
+  
+  <div class="form-group" style="display:none;">
+    <%= f.label :name, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :name, class: 'form-control', :id =>"country_name" %> 
+    </div>
+  </div>
+  <div class="form-group" style="display:none;">
+    <%= f.label :code, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :code, class: 'form-control', :id =>"country_code" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= f.submit nil, class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+<script>
+function update_country_name()
+{
+	var c_name =  $("#country_select option:selected").text();
+	var c_code = $("#country_select").val();
+	$("#country_name").val(c_name);
+	$("#country_code").val(c_code);
+	
+}
+	
+ 
+</script>

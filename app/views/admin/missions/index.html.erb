@@ -1,0 +1,42 @@
+<div class="page-header">
+  <h3>Listing missions</h3>
+  <%= database_language_links %>
+</div>
+
+<div class="form-group">
+<table class="sortable table table-striped table-bordered table-condensed">
+  <thead>
+    <tr>
+      <th>Name</th> 
+      <th>Start date</th>
+      <th>End date</th>
+      <th>Contact</th>
+      <th>Country</th>  
+      <th>Active</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @missions.each do |mission| %>
+      <tr>
+        <td><%= mission.name %></td> 
+        <td><%= mission.start_date %></td>
+        <td><%= mission.end_date %></td>
+        <td><%= mission.contact %></td>
+        <td><%= mission.country.name rescue '' %></td>  
+        <td><%= mission.active %></td>
+        <td><%= link_to 'Show', [:admin, mission], class: 'btn btn-default btn-xs' %></td>
+        <td><%= link_to 'Edit', edit_admin_mission_path(mission), class: 'btn btn-default btn-xs' %></td>
+        <td><%= link_to 'Destroy', [:admin, mission], method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-danger' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Mission', new_admin_mission_path, class: 'btn btn-primary' %>
+</div>

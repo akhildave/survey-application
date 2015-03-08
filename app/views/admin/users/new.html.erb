@@ -1,0 +1,84 @@
+<%- model_class = User -%>
+<div class="page-header">
+  <h3><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human.titleize %></h3>
+</div>
+<%#= render :partial => 'form' %>
+
+<%= simple_form_for @user, :url => admin_users_path, :html => { :class => "form-horizontal", :role => "form" } do |f| %>
+  <%= f.error_messages %>
+ 
+
+
+  <div class="form-group">
+    <%= f.label :first_name, :class => "col-sm-2 control-label"  %>
+    <div class="col-sm-4">
+      <%= f.text_field :first_name, :type => :text, :class => "form-control", :placeholder => "First Name" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :last_name, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.text_field :last_name, :type => :text, :class => "form-control", :placeholder => "Last Name" %>
+    </div>
+  </div>  
+  
+  <div class="form-group">
+    <%= f.label :username, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.text_field :username, :type => :text, :class => "form-control", :placeholder => "Username" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :email, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.text_field :email, :class => "form-control", :placeholder => "Email Address" %>
+    </div>
+  </div>
+  
+  
+  <div class="form-group">
+    <%= f.label :preferred_locale, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+   
+	  <% @languages = Language.all %>
+  	  <%= f.collection_select :locale, @languages, :code, :name, {:selected => "en"}, {:class => 'form-control'} %>
+    </div>
+  </div>
+  
+ <div class="form-group">
+   <%= f.label :role, :class => "col-sm-2 control-label" %>
+   <div class="col-sm-4">
+     <%=f.select :role, User.roles.keys.to_a.map { |w| [w.humanize, w] },{}, {:class => 'form-control'} %>
+   </div>
+ </div>
+ 
+  <div class="form-group">
+    <%= f.label :password, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.password_field :password, :class => "form-control", :placeholder => "Password" %>
+    </div>
+  </div>
+  
+
+ 
+ <div class="form-group">
+   <%= f.label :password_confirmation, :class => "col-sm-2 control-label" %>
+   <div class="col-sm-4">
+     <%= f.password_field :password_confirmation, :class => "form-control", :placeholder => "Password confirmation" %>
+   </div>
+ </div> 
+
+ 
+  <p><%#= f.label :role %>
+	  <%#= f.collection_select :role, Role.all, :to_s, :humanize, {:include_blank => true} %></p>
+ </br>
+
+ <div class="form-group">
+   <div class="col-sm-offset-2 col-sm-4">
+     <%= f.submit "Submit", :class => "btn btn-default" %>
+   </div>
+ </div>
+ 
+<% end %>

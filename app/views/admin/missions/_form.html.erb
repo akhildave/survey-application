@@ -1,0 +1,225 @@
+
+<% @languages = Language.all %>
+
+<div class="container">
+ <div class="col-md-12">
+     <div class="pull-right">    
+     <div class="col-md-4">    
+     
+     </div>   
+  
+     <div class="col-md-4">    
+         <!-- Button trigger modal -->
+         <button class="btn btn-primary btn-xs " data-toggle="modal" data-target="#myModal">
+             Add Fields For Other Language
+         </button>
+     </div>
+    </div>
+ </div>
+ </div>
+<br/>
+
+<%= form_for([:admin, @mission], html: { class: 'form-horizontal mission' }) do |f| %>
+  <% if @mission.errors.any? %>
+    <div id="error_explanation" class="panel panel-danger">
+      <div class="panel-heading">
+        <h2 class="panel-title"><%= pluralize(@mission.errors.count, "error") %> prohibited this mission from being saved:</h2>
+      </div>
+      <div class="panel-body">
+        <ul>
+        <% @mission.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+        </ul>
+      </div>
+    </div>
+  <% end %>
+
+ <br/>
+  <br/>
+
+  <%# available_locales.each_pair do |locale, name_locale| -%>
+  <% @languages.each do |lang| -%>
+   
+   <% 
+   	 locale = lang.code.to_sym
+  	 name_locale = lang.name
+   %>
+
+    <% if locale == I18n.locale -%>
+ 
+		  <div class="form-group">
+		    <%= f.label :mission_name, class: 'control-label col-md-2' %>
+		    <div class="col-md-10">
+		      <%= f.text_field :name, class: 'form-control' %> <i>(<%= name_locale %>)</i>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <%= f.label :description, class: 'control-label col-md-2' %>
+		    <div class="col-md-10">
+		      <%= f.text_area :description, class: 'form-control' %> <i>(<%= name_locale %>)</i>
+		    </div>
+		  </div>
+  
+  
+    <% else -%>
+      <%= f.globalize_fields_for locale do |g| -%>
+ 
+ 	  <div id="language_<%= lang.id %>" style= "display:none;">
+	  <div class="form-group">
+	    <%= g.label :mission_name, class: 'control-label col-md-2' %>
+	    <div class="col-md-10">
+	      <%= g.text_field :name, class: 'form-control' %> <i>(<%= name_locale %>)</i>
+	    </div>
+	  </div>
+	  <div class="form-group">
+	    <%= g.label :description, class: 'control-label col-md-2' %>
+	    <div class="col-md-10">
+	      <%= g.text_area :description, class: 'form-control' %> <i>(<%= name_locale %>)</i>
+	    </div>
+	  </div>
+  	  </div>
+  
+		
+      <% end -%>
+    <% end -%>
+  <% end -%> 
+
+
+
+  <div class="form-group">
+    <%= f.label :start_date, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.date_select :start_date, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :end_date, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.date_select :end_date, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :contact, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%= f.text_field :contact, class: 'form-control' %>
+    </div>
+  </div>
+  <div class="form-group"> 
+	    <%= f.label :country_id, class: 'control-label col-md-2' %>
+    <div class="col-md-10"> 
+		<%= f.collection_select :country_id, Country.order(:name), :id, :name,
+{:include_blank => 'Select Country..'}, {:class => 'form-control'} %> 
+    </div>
+  </div>
+
+  
+ 
+  <div class="form-group">
+    <%#= f.label :user_id, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+      <%#= f.number_field :user_id, class: 'form-control' %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :assign_staffs, class: 'control-label col-md-2' %>
+    <div class="col-md-10">
+	  <%# if !@available_users.nil? %>
+	    <%= f.select(:users, @available_users.collect {|p| [ p.name, p.id ] },{:selected => @selected_users.map(&:id)}, 
+	     { :multiple => true, :size => 10 ,:name => "user_ids[]", :id => "multi_select",:include_hidden => true}) %>
+          
+	  <%# end %>
+    </div>
+  </div>
+		
+ 
+  
+  <div class="form-group">
+    
+      <%= f.label :picture, class: 'control-label col-md-2'  %>
+  
+    <div class="col-sm-9"> 
+      <%    @mission.build_picture   if !@mission.picture  %>
+      <%= f.fields_for :picture do |photo| %>      
+        <%= photo.file_field :image, class: 'form-control'  %>                  
+      <% end %>     
+ 
+      <%= image_tag f.object.picture.image.url(:thumb), :style=>"width:350px;height:150px;" %>    
+
+    </div>
+  </div>  
+ 
+  
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+      <%= f.label :active, for: nil do %>
+        <%= f.check_box :active, :checked => true %>
+        <%= Mission.human_attribute_name(:active) %>
+      <% end %>
+    </div>
+  </div>
+
+
+  <div class="form-group">
+     <%= f.label :about_study,class: 'control-label col-md-2' %>
+      <div class="col-sm-9"> 
+      <%= link_to 'About Study', edit_admin_about_study_path(:mission_id => @mission.id)  , :class => " "  %>  
+      </div> 
+  </div>      
+  
+  <div class="form-group">
+    <div class="col-md-offset-2 col-md-10"> 
+      <%= f.submit nil, class: 'btn btn-primary' %>
+    </div>
+  </div>
+<% end %>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-vertical-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Available Languages</h4>
+      </div>
+      <div class="modal-body">
+		  <div class="row">
+       
+		  <% @languages.each do |lang| -%>
+		   
+		   <% if lang.code.to_sym != I18n.locale %>
+		    <div class="col-md-3">
+		  	<input type="checkbox" name="vehicle" value="Bike" id="checkbox_<%= lang.id %>" class="language-checkbox">  
+			<%= lang.name %> 
+			</div>
+			<% end %>
+		  <% end %>
+		  
+	  	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button> 
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+	 
+	
+<script type="text/javascript">
+	$('#multi_select').multiSelect();
+	$(".language-checkbox").change(function() {
+		var l_id = $(this).attr('id').split("_")[1];
+	    if(this.checked) { 
+			$("#language_"+l_id).show(); 
+			
+	    }else
+		{ 	
+			$("#language_"+l_id).hide();
+		}
+	});
+</script>

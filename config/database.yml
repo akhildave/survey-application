@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: utf8
+  database: chlar4_web
+  pool: 25
+  username: postgres
+  password: postgres
+  host: localhost
+
+development:
+  <<: *default
+  database: chlar4_web_development
+
+test:
+  <<: *default
+  database: chlar4_web_test
+
+production:
+  <<: *default
+  database: chla_production
+  username: postgres
+  password: postgres
+  host: localhost

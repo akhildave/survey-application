@@ -1,0 +1,65 @@
+<!-- <%- model_class = User -%>
+<div class="page-header">
+  <h1><%#=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
+<%#= render :partial => 'form' %> -->
+<div class="page-header">
+  <h4>Editing user <%= @user.email %></h$>
+</div>
+
+<%= form_for [:admin, @user], :html => { :class => "form-horizontal", :role => "form" } do |f| -%>
+
+  <%= f.error_messages %>
+
+  <div class="form-group">
+    <%= f.label :first_name, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.text_field :first_name, :type => :text, :class => "form-control", :placeholder => "First Name" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :last_name, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.text_field :last_name, :type => :text, :class => "form-control", :placeholder => "Last Name" %>
+    </div>
+  </div>  
+  
+  <div class="form-group">
+    <%= f.label :username, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.text_field :username, :type => :text, :class => "form-control", :placeholder => "Username" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :email, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%= f.email_field :email, :type => :email, :class => "form-control", :placeholder => "Enter your email" %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :preferred_locale, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+   
+	  <% @languages = Language.all %>
+  	  <%= f.collection_select :locale, @languages, :code, :name,{:include_blank => 'Select Preferred Language..'}, {:class => 'form-control'} %>
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <%= f.label :role, :class => "col-sm-2 control-label" %>
+    <div class="col-sm-4">
+      <%=f.select :role, User.roles.keys.to_a.map { |w| [w.humanize, w] } ,{}, {:class => 'form-control'} %>
+    </div>
+  </div> 
+ 
+  </br>
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-4">
+      <%= f.submit "Update", :class => "btn btn-default" %>
+    </div>
+  </div>
+
+<% end -%>

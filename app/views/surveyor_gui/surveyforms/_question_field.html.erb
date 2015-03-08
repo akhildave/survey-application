@@ -1,0 +1,148 @@
+<%= f.hidden_field :id %>
+<%= f.hidden_field :display_order %>
+<%= f.hidden_field :modifiable %>
+
+<%= row_label_if_question_group f.object %>
+
+<% question_type = f.object.question_type_id
+   case question_type
+     when :slider -%>
+      <div class="slider">
+      <!-- The slider uses the Jquery UISlider plugin (http://www.filamentgroup.com/lab/update_jquery_ui_16_slider_from_a_select_element/) -->
+      <!-- Look in application.js for the hook - it selects all input select elements with "uislider" as the class -->
+      <%= f.input :dummy_answer, :collection => f.object.answers.map{|a| a.text}, :as => :select, :label => false,
+                  :input_html => {:class => "uislider"}, :include_blank => false, :wrapper_html=>{:class => 'shrink_slider'} %>
+      </slider>
+  <% when :stars -%>
+    <%= f.input :dummy_answer, label: false, :collection => [[nil,1],[nil,2],[nil,3],[nil,4],[nil,5]],
+                :as => :radio_buttons, :input_html=>{:class=>'star'}, :wrapper_html=>{:class=>'star'} %>
+
+  <% when :pick_one -%>
+
+    <% f.object.answers.each do |answer| -%>
+      <% if answer.is_comment==true -%>
+          <span class="other comments_text">
+            <%= f.input :dummy_answer,  :as=>:string, label: answer.text %>
+          </span>
+      <% else -%>
+        <%= f.input_field :dummy_answer, label: (f.object.repeater? ? answer.text : false), collection: [answer.text], collection: [answer.text], :as => :radio_buttons%>
+        <% if answer.response_class == "string" %>
+          <span class="other">
+            <%= f.input_field :dummy_answer,  :as=>:string, :label=> false%>
+          </span>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+
+  <% when :grid_one -%>
+
+    <% f.object.answers.each do |answer| -%>
+      <%= f.input_field :dummy_answer, label: false, collection: [answer.text], :as => :radio_buttons %>
+      <% if answer.response_class == "string" %>
+        <span class="other">
+          <%= f.input_field :dummy_answer,  :as=>:string, :label=>false%>
+        </span>
+      <% end -%>
+    <% end -%>
+
+  <% when :dropdown -%>
+
+    <%= f.input :dummy_answer, label: false, :collection => f.object.answers.collect(&:text), :as => :select %>
+
+
+  <% when :grid_dropdown -%>
+    <% f.object.question_group.columns.each do |column|  %>
+      <%= f.input :dummy_answer, label: false,
+                  :collection => f.object.answers.where('column_id=?',column.id).collect(&:text),
+                  :as => :select, :wrapper_html=>{:class=>'grid_dropdown_cell'} %>
+    <% end -%>
+
+  <% when :pick_any %>
+    <% f.object.answers.each do |answer| -%>
+      <% if answer.is_comment==true -%>
+          <span class="other comments_text">
+            <%= f.input :dummy_answer,  :as=>:string, label: answer.text %>
+          </span>
+      <% else -%>
+        <%= f.input_field :dummy_answer_array, label: (f.object.repeater? ? answer.text : false), collection: [answer.text], :as => :check_boxes %>
+        <% if answer.response_class == "string" %>
+          <span class="other">
+            <%= f.input_field :dummy_answer,  :as=>:string, :label=> false%>
+          </span>
+        <% end -%>
+      <% end -%>
+    <% end -%>
+
+  <% when :grid_any %>
+
+    <% if f.object.dynamically_generate==false -%>
+      <br />
+      <span style="font-weight:normal;font-style:italic" class="field_indent">content retrieved from the application will go here.</span>
+      <br />
+    <% else -%>
+      <% f.object.answers.each do |answer| -%>
+        <%= f.input_field :dummy_answer_array, label: false, collection: [answer.text], :as => :check_boxes %>
+        <% if answer.response_class == "string" %>
+          <span class="other">
+            <%= f.input_field :dummy_answer,  :as=>:string, :label=>false%>
+          </span>
+        <% end -%>
+      <% end -%>
+
+    <% end %>
+
+  <% when :label -%>
+     <span style="margin-left: 4.5em;">
+     <%= f.object.text %>
+     </span>
+
+  <% when  :string -%>
+    <%= f.input :dummy_answer, :as=>:string, :label=>false, :input_html=>{:rows=>"1"}%>
+
+  <% when  :box -%>
+
+    <%= f.input :dummy_answer, :as=>:text, :label=>false, :input_html=>{ :rows=>"3"}%>
+
+  <% when :number -%>
+    <!-- Prefix -->
+    <span class="fl prefix">
+      <% if f.object.answers.first.text.include?('|') %>
+        <%= f.object.answers.first.text.split('|')[0] %>&nbsp;
+      <% end %>
+    </span>
+
+    <!-- Number -->
+    <%= f.input :dummy_answer, :as=>:string, :label=>false, :input_html=>{:size=>"10"}, :wrapper_html=>{:class=>'fl notfirst number'} %>
+
+    <!-- Suffix -->
+    <span class="suffix fl">
+      &nbsp;
+      <%= f.object.answers.first.text.split('|')[1] %>
+    </span>
+  <% when :date -%>
+      <%= f.input :dummy_answer, :as=>:date_picker, :label=>false, :input_html=>{:size => "8",:style=>"margin-left: 4.5em;"},
+                  :hint => 'mm/dd/yy', :hint_html=>{:style=>'margin-left:5em;'} %>
+
+  <% when :datetime -%>
+      <%= f.input :dummy_answer, :as=>:datetime_picker, :label=>false, :input_html=>{:size => "8",:style=>"margin-left: 4.5em;"},
+                  :hint => 'mm/dd/yy hh:mm', :hint_html=>{:style=>'margin-left:5em;'} %>
+
+  <% when :time -%>
+      <%= f.input :dummy_answer, :as=>:time_picker, :label=>false, :input_html=>{:size => "8",:style=>"margin-left: 4.5em;"},
+                  :hint => 'hh:mm', :hint_html=>{:style=>'margin-left:5em;'} %>
+  <% when :file -%>
+    <%= f.input :dummy_blob, :as => :file, :label=>false, :input_html=>{:size => "8",:style=>"margin-left: 4.5em;"} %>
+
+  <% else -%>
+    <br/>
+    <br />
+    <%= f.input :dummy_answer, :label=>false, :input_html=>{:style=>"margin-left: 4.5em;"}%>
+<% end -%>
+
+<% if !f.object.modifiable? -%>
+  <br />
+  <span class='field_indent'>
+    Report Code: <%= f.object.report_code %>
+  </span>
+  <br />
+<% end %>

@@ -1,0 +1,32 @@
+ 
+<p>
+  <strong>Heading:</strong>
+  <%= @about_study.heading %>
+</p>
+
+<p>
+  <strong>Subheading:</strong>
+  <%= @about_study.subheading %>
+</p>
+
+<p>
+  <strong>Description1:</strong>
+  <%= @about_study.description1 %>
+</p>
+
+<p>
+  <strong>Description2:</strong>
+  <%= @about_study.description2 %>
+</p>
+
+<p>
+  <strong>Description3:</strong>
+  <%= @about_study.description3 %>
+</p>
+
+<p>
+  <strong>Mission:</strong>
+  <%= @about_study.mission.name if @about_study.mission %>
+</p>
+
+<%= link_to 'Edit', edit_admin_about_study_path(@about_study) %> 

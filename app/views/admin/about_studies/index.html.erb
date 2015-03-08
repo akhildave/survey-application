@@ -1,0 +1,34 @@
+<div class="page-header">
+  <h3>Mission - About Study</h3>
+  <%= database_language_links %>
+</div>
+
+
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Mission</th> 
+      <th>Heading</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @about_studies.each do |about_study| %>
+      <tr>
+        <td><%= about_study.mission.name if about_study.mission %></td>
+        <td><%= about_study.heading %></td>  
+        <td><%= link_to 'Show', [:admin, about_study] %></td>
+        <td><%= link_to 'Edit', edit_admin_about_study_path(about_study) %></td>
+        <td><%= link_to 'Destroy', [:admin, about_study], method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New About study', new_admin_about_study_path %>

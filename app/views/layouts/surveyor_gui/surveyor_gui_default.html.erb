@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>CHLA Survey Manager</title>
+    <%#= stylesheet_link_tag    "surveyor_gui_all", :media => "all" %>
+    <%#= javascript_include_tag "surveyor_gui_all" %>
+	 
+    <!-- <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script> -->
+	<%= javascript_include_tag "application" %>
+	 <%= stylesheet_link_tag    "application", :media => "all" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+  <%= render "layouts/admin/main_nav" %>
+    <div id="surveyor_gui_mount_point" data-surveyor_gui_mount_point="<%= surveyor_gui.surveyforms_path %>"></div>
+	   <div id="surveyor-gui-mount-point" data-surveyor-gui-mount-point="<%= surveyor_gui.surveyforms_path %>"></div>
+	<% flash.each do |key, value| %>
+	<% if key.to_sym == :notice %>
+	  <div class="alert alert-success"><%= value %></div>
+	<% elsif key.to_sym == :alert %>
+	  <div class="alert alert-danger"><p><%= value %></p></div>
+	<% elsif key.to_sym == :error %>
+	  <div class="alert alert-danger"><p><%= value %></p></div> 
+	<% else %>
+	  <div class="alert alert-danger"><p><%= value %></p></div>
+
+	<% end %>
+	
+	
+	<% end %>
+	
+	  <div class="container">
+ 
+   <%= yield %>
+	</div>
+	
+	
+  </body>
+</html>
+<style>
+.section_header_fs
+{
+	background-color:#F2F2F2;
+	position:relative;
+	padding:10px;
+}
+.fieldset_bg_fs
+{
+	background:#FAFAFA;
+	padding:10px;
+}
+.question_area_background_fs
+{
+	background:#F7F2E0;
+	padding:10px;
+}
+.question_bottom_buttons_fs
+{
+	padding:10px;
+}
+.question_group_area_background_fs
+{
+	background:#F7F2E0;
+	padding:10px;
+}
+</style>
+
+ 

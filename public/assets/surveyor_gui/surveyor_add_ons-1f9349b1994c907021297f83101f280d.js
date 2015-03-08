@@ -1,0 +1,1 @@
+!function(n){n(document).ready(function(){n(".q_stars").find("input[type=radio]").rating()})}(jQuery);

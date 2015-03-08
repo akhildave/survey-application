@@ -1,0 +1,27 @@
+<nav class="navbar navbar-default" role="navigation">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#baseapp-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+
+      <%= link_to "Family Study", main_app.admin_path, :class => "navbar-brand" %>
+    </div>
+
+
+    <div class="collapse navbar-collapse" id="baseapp-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li><%= link_to("Users", main_app.admin_users_path) %></li>
+		<li><%= link_to("Countries", main_app.admin_countries_path) %></li>
+		<li><%= link_to("Missions", main_app.admin_missions_path) %></li>
+		<li><%= link_to("Languages", main_app.admin_languages_path) %></li>
+		<li><%= link_to("Surveys", main_app.admin_surveyforms_path) %></li> 
+        <li><%= link_to("Exit →", main_app.root_path) %></li>
+      </ul>
+    </div>
+
+  </div>
+</nav>

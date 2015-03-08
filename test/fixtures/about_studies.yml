@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  description1: MyText
+  description2: MyText
+  description3: MyText
+  heading: MyString
+  subheading: MyString
+  mission_id: 1
+  interest: false
+
+two:
+  description1: MyText
+  description2: MyText
+  description3: MyText
+  heading: MyString
+  subheading: MyString
+  mission_id: 1
+  interest: false
