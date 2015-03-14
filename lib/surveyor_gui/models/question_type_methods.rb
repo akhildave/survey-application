@@ -13,12 +13,12 @@ SurveyorGui::Models::QuestionTypeMethods.module_eval do
     ##### Handle Default answer display_order
     # default answer is created without display order. Remove it or update its display_order - fix.
     question.answers.each_with_index {|a, index| 
-      # if a.display_order.nil?
-      #   a.display_order = 0
-      # else
-      #   a.display_order = question.answers.size > 0 ? question.answers.last.display_order+1 : 0
-      # end
-      a.destroy
+       if a.display_order.nil?
+         a.display_order = 0
+       else
+         a.display_order = question.answers.size > 0 ? question.answers.last.display_order+1 : 0
+       end
+      #a.destroy
     }   
     ##### Handle Default answer - End
     
