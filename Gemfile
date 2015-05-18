@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '2.1.1'
+#ruby '2.1.1'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.3'
 
@@ -82,6 +82,7 @@ group :development, :test do
 	gem 'guard-spork'
 	# Show test results on Mac notifications
 	gem 'terminal-notifier-guard'
+	#gem 'therubyracer'
 end
 
 
@@ -147,6 +148,8 @@ gem 'iso'
 gem 'devise-token_authenticatable', '0.3.0'
 
 gem 'rabl'
+gem 'aescrypt'
+
 #gem 'cancancan', '~> 1.10'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'

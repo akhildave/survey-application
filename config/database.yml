@@ -9,15 +9,15 @@ default: &default
 
 development:
   <<: *default
-  database: chlar4_web_development
+  database: sur_dev
 
 test:
   <<: *default
-  database: chlar4_web_test
+  database: sur_test
 
 production:
   <<: *default
-  database: chla_production
+  database: sur_prod
   username: postgres
   password: postgres
   host: localhost

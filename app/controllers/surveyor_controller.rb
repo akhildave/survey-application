@@ -8,17 +8,19 @@ module SurveyorControllerCustomMethods
 
   # Actions
   def new
-    super
-    # @title = "You can take these surveys"
+    super 
+    @title = "You can take these surveys - NEW"
   end
   def create
     super
   end
   def show
-    super
+    super 
+     @title = "You can take these surveys - SHOW"
   end
   def edit
-    super
+    super 
+    @title = "You can take these surveys  - EDIT"
   end
   def update
     super
